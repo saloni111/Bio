@@ -38,22 +38,39 @@
         <!-- Bio Header Section -->
         <div class="bio-header">
             <div class="avatar">
-                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-                    <circle cx="32" cy="32" r="32" fill="var(--primary-color)"/>
-                    <circle cx="32" cy="26" r="10" fill="white"/>
-                    <path d="M16 52c0-8.8 7.2-16 16-16s16 7.2 16 16" fill="white"/>
-                </svg>
+                <div class="avatar-gradient">
+                    <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
+                        <circle cx="36" cy="36" r="36" fill="url(#avatarGradient)"/>
+                        <circle cx="36" cy="28" r="11" fill="white"/>
+                        <path d="M18 58c0-10 8-18 18-18s18 8 18 18" fill="white"/>
+                    </svg>
+                    <svg width="0" height="0">
+                        <defs>
+                            <linearGradient id="avatarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
             </div>
             <h1>Saloni Gandhi</h1>
-            <p class="tagline">Software Engineer | AI & Cloud Enthusiast | MS CS @ Indiana University Bloomington (2026 Grad)</p>
+            <p class="tagline">Software Engineer | AI & Cloud Enthusiast<br>MS CS @ Indiana University Bloomington (2026 Grad)</p>
             <div class="now-section">
-                <p class="now-label">Now</p>
-                <p class="now-text">Currently building real-time trading systems at Astral Trading using Python, C++, and AWS.</p>
+                <div class="now-badge">
+                    <span class="now-dot"></span>
+                    <span class="now-label">Currently</span>
+                </div>
+                <p class="now-text">Building real-time trading systems at <strong>Astral Trading</strong> using Python, C++, and AWS</p>
             </div>
         </div>
 
         <!-- Divider -->
-        <div class="divider"></div>
+        <div class="divider">
+            <div class="divider-line"></div>
+            <div class="divider-text">Connect With Me</div>
+            <div class="divider-line"></div>
+        </div>
 
         <!-- Links Section -->
         <nav aria-label="Social and professional links">
@@ -64,16 +81,21 @@
                             type="button"
                             id="resumeButton">
                         <div class="link-content">
-                            <svg class="link-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                <polyline points="14,2 14,8 20,8"></polyline>
-                                <line x1="16" y1="13" x2="8" y2="13"></line>
-                                <line x1="16" y1="17" x2="8" y2="17"></line>
-                                <polyline points="10,9 9,9 8,9"></polyline>
-                            </svg>
-                            <span class="link-title">Resume</span>
+                            <div class="link-icon-wrapper">
+                                <svg class="link-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14,2 14,8 20,8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10,9 9,9 8,9"></polyline>
+                                </svg>
+                            </div>
+                            <div class="link-text">
+                                <span class="link-title">Resume</span>
+                                <span class="link-description">View my professional experience & skills</span>
+                            </div>
                         </div>
-                        <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="9,18 15,12 9,6"></polyline>
                         </svg>
                     </button>
@@ -85,14 +107,19 @@
                        class="link-btn"
                        data-link="portfolio">
                         <div class="link-content">
-                            <svg class="link-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                                <line x1="8" y1="21" x2="16" y2="21"></line>
-                                <line x1="12" y1="17" x2="12" y2="21"></line>
-                            </svg>
-                            <span class="link-title">Portfolio</span>
+                            <div class="link-icon-wrapper">
+                                <svg class="link-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                                </svg>
+                            </div>
+                            <div class="link-text">
+                                <span class="link-title">Portfolio</span>
+                                <span class="link-description">Explore my projects & technical work</span>
+                            </div>
                         </div>
-                        <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="9,18 15,12 9,6"></polyline>
                         </svg>
                     </a>
@@ -104,12 +131,17 @@
                        class="link-btn"
                        data-link="github">
                         <div class="link-content">
-                            <svg class="link-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                            </svg>
-                            <span class="link-title">GitHub</span>
+                            <div class="link-icon-wrapper">
+                                <svg class="link-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                                </svg>
+                            </div>
+                            <div class="link-text">
+                                <span class="link-title">GitHub</span>
+                                <span class="link-description">Check out my code & contributions</span>
+                            </div>
                         </div>
-                        <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="9,18 15,12 9,6"></polyline>
                         </svg>
                     </a>
@@ -121,14 +153,19 @@
                        class="link-btn"
                        data-link="linkedin">
                         <div class="link-content">
-                            <svg class="link-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                                <rect x="2" y="9" width="4" height="12"></rect>
-                                <circle cx="4" cy="4" r="2"></circle>
-                            </svg>
-                            <span class="link-title">LinkedIn</span>
+                            <div class="link-icon-wrapper">
+                                <svg class="link-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                                    <rect x="2" y="9" width="4" height="12"></rect>
+                                    <circle cx="4" cy="4" r="2"></circle>
+                                </svg>
+                            </div>
+                            <div class="link-text">
+                                <span class="link-title">LinkedIn</span>
+                                <span class="link-description">Connect with me professionally</span>
+                            </div>
                         </div>
-                        <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="9,18 15,12 9,6"></polyline>
                         </svg>
                     </a>
@@ -139,33 +176,68 @@
         <!-- Let's Connect Button -->
         <div class="connect-section fade-in" style="animation-delay: 0.5s;">
             <a href="mailto:smgandhi@iu.edu" class="connect-btn" data-link="email">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                    <polyline points="22,6 12,13 2,6"></polyline>
-                </svg>
-                Let's Connect
+                <div class="connect-content">
+                    <div class="connect-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </div>
+                    <div class="connect-text">
+                        <span class="connect-title">Let's Connect!</span>
+                        <span class="connect-subtitle">Drop me an email • smgandhi@iu.edu</span>
+                    </div>
+                </div>
+                <div class="connect-sparkle">✨</div>
             </a>
         </div>
 
-        <!-- QR Button -->
+        <!-- QR Section -->
         <div class="qr-section fade-in" style="animation-delay: 0.6s;">
-            <button id="qrBtn" class="qr-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="5" height="5"></rect>
-                    <rect x="16" y="3" width="5" height="5"></rect>
-                    <rect x="3" y="16" width="5" height="5"></rect>
-                    <path d="M21 16h-3a2 2 0 0 0-2 2v3"></path>
-                    <path d="M21 21v.01"></path>
-                    <path d="M12 7v3a2 2 0 0 1-2 2H7"></path>
-                    <path d="M3 12h.01"></path>
-                    <path d="M12 3h.01"></path>
-                    <path d="M12 16v.01"></path>
-                    <path d="M16 12h1"></path>
-                    <path d="M21 12v.01"></path>
-                    <path d="M12 21v-1"></path>
-                </svg>
-                Show QR
-            </button>
+            <div class="qr-header">
+                <h3>👋 Perfect for GHC 25!</h3>
+                <p>Scan to see my projects & connect instantly</p>
+            </div>
+            
+            <div class="qr-buttons">
+                <button id="qrBtn" class="qr-btn primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="5" height="5"></rect>
+                        <rect x="16" y="3" width="5" height="5"></rect>
+                        <rect x="3" y="16" width="5" height="5"></rect>
+                        <path d="M21 16h-3a2 2 0 0 0-2 2v3"></path>
+                        <path d="M21 21v.01"></path>
+                        <path d="M12 7v3a2 2 0 0 1-2 2H7"></path>
+                        <path d="M3 12h.01"></path>
+                        <path d="M12 3h.01"></path>
+                        <path d="M12 16v.01"></path>
+                        <path d="M16 12h1"></path>
+                        <path d="M21 12v.01"></path>
+                        <path d="M12 21v-1"></path>
+                    </svg>
+                    Generate QR for Badge
+                </button>
+                
+                <button id="linkedinQrBtn" class="qr-btn secondary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                        <rect x="2" y="9" width="4" height="12"></rect>
+                        <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
+                    LinkedIn QR
+                </button>
+            </div>
+            
+            <div class="qr-tips">
+                <div class="tip">
+                    <span class="tip-icon">💡</span>
+                    <span class="tip-text">Print both QR codes on your badge or business cards</span>
+                </div>
+                <div class="tip">
+                    <span class="tip-icon">🎯</span>
+                    <span class="tip-text">Perfect conversation starter: "Scan to see my latest projects!"</span>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -175,9 +247,9 @@
 
     <!-- QR Modal -->
     <div id="qrModal" class="modal" role="dialog" aria-labelledby="qrModalTitle" aria-hidden="true">
-        <div class="modal-content">
+        <div class="modal-content qr-modal">
             <div class="modal-header">
-                <h2 id="qrModalTitle">QR Code</h2>
+                <h2 id="qrModalTitle">QR Code for Badge/Cards</h2>
                 <button id="closeModal" class="close-btn" aria-label="Close QR code modal">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -186,8 +258,74 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div id="qrcode"></div>
-                <button id="downloadQR" class="download-btn">Download PNG</button>
+                <div class="qr-display">
+                    <div id="qrcode"></div>
+                    <div class="qr-label">
+                        <p>👋 <strong>Scan to see my projects!</strong></p>
+                        <p class="qr-url" id="qrUrl">saloni111.github.io/Bio</p>
+                    </div>
+                </div>
+                <div class="qr-actions">
+                    <button id="downloadQR" class="download-btn primary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7,10 12,15 17,10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download for Badge
+                    </button>
+                    <button id="printQR" class="download-btn secondary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6,9 6,2 18,2 18,9"></polyline>
+                            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                            <rect x="6" y="14" width="12" height="8"></rect>
+                        </svg>
+                        Print Cards
+                    </button>
+                </div>
+                <div class="qr-tips-modal">
+                    <h4>💡 GHC 25 Tips:</h4>
+                    <ul>
+                        <li>Add this QR to your conference badge</li>
+                        <li>Print mini cards for easy sharing</li>
+                        <li>Perfect conversation starter with recruiters</li>
+                        <li>Shows all your work in one scan!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LinkedIn QR Modal -->
+    <div id="linkedinQrModal" class="modal" role="dialog" aria-labelledby="linkedinQrModalTitle" aria-hidden="true">
+        <div class="modal-content qr-modal">
+            <div class="modal-header">
+                <h2 id="linkedinQrModalTitle">LinkedIn QR Code</h2>
+                <button id="closeLinkedinModal" class="close-btn" aria-label="Close LinkedIn QR modal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="qr-display">
+                    <div id="linkedinQrcode"></div>
+                    <div class="qr-label linkedin">
+                        <p>🤝 <strong>Connect on LinkedIn!</strong></p>
+                        <p class="qr-url">Quick professional networking</p>
+                    </div>
+                </div>
+                <div class="qr-actions">
+                    <button id="downloadLinkedinQR" class="download-btn primary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7,10 12,15 17,10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download LinkedIn QR
+                    </button>
+                </div>
             </div>
         </div>
     </div>
