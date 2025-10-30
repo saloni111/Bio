@@ -108,29 +108,24 @@
   // QR Code functionality
   function initQRCode() {
     const qrBtn = document.getElementById('qrBtn');
-    const linkedinQrBtn = document.getElementById('linkedinQrBtn');
     const modal = document.getElementById('qrModal');
-    const linkedinModal = document.getElementById('linkedinQrModal');
     const closeBtn = document.getElementById('closeModal');
-    const closeLinkedinBtn = document.getElementById('closeLinkedinModal');
     const downloadBtn = document.getElementById('downloadQR');
-    const downloadLinkedinBtn = document.getElementById('downloadLinkedinQR');
-    const printBtn = document.getElementById('printQR');
     const qrContainer = document.getElementById('qrcode');
-    const linkedinQrContainer = document.getElementById('linkedinQrcode');
 
     if (!qrBtn || !modal || !closeBtn || !downloadBtn || !qrContainer) return;
 
     let qrCodeInstance = null;
-    let linkedinQrCodeInstance = null;
 
     // Generate QR code - Simple and reliable approach
-    function generateQR(container, url, instance) {
+    function generateQR() {
       // Clear previous QR code
-      container.innerHTML = '';
+      qrContainer.innerHTML = '';
+
+      const url = window.location.href;
 
       // Show loading state
-      container.innerHTML = '<div style="padding: 2rem; color: var(--text-color);">Generating QR Code...</div>';
+      qrContainer.innerHTML = '<div style="padding: 2rem; color: var(--text-color);">Generating QR Code...</div>';
 
       // Use QR Server API - most reliable method
       const qrImg = document.createElement('img');
@@ -140,48 +135,40 @@
       const bgColor = isDark ? '000000' : 'ffffff';
       const fgColor = isDark ? 'ffffff' : '000000';
 
-      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&bgcolor=${bgColor}&color=${fgColor}&data=${encodeURIComponent(url)}`;
+      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&bgcolor=${bgColor}&color=${fgColor}&data=${encodeURIComponent(url)}`;
       qrImg.alt = 'QR Code for ' + url;
       qrImg.style.cssText = `
         border-radius: 1rem;
         box-shadow: 0 4px 16px var(--shadow-color);
-        max-width: 250px;
+        max-width: 200px;
         height: auto;
         display: block;
       `;
 
       qrImg.onload = () => {
-        container.innerHTML = '';
-        container.appendChild(qrImg);
-        if (container === qrContainer) {
-          qrCodeInstance = qrImg;
-        } else {
-          linkedinQrCodeInstance = qrImg;
-        }
+        qrContainer.innerHTML = '';
+        qrContainer.appendChild(qrImg);
+        qrCodeInstance = qrImg;
         console.log('✅ QR Code generated successfully');
       };
 
       qrImg.onerror = () => {
         // Fallback: Try without color customization
         const fallbackImg = document.createElement('img');
-        fallbackImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(url)}`;
+        fallbackImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
         fallbackImg.alt = 'QR Code for ' + url;
         fallbackImg.style.cssText = qrImg.style.cssText;
 
         fallbackImg.onload = () => {
-          container.innerHTML = '';
-          container.appendChild(fallbackImg);
-          if (container === qrContainer) {
-            qrCodeInstance = fallbackImg;
-          } else {
-            linkedinQrCodeInstance = fallbackImg;
-          }
+          qrContainer.innerHTML = '';
+          qrContainer.appendChild(fallbackImg);
+          qrCodeInstance = fallbackImg;
           console.log('✅ QR Code generated (fallback)');
         };
 
         fallbackImg.onerror = () => {
           // Final fallback - show URL as text with copy button
-          container.innerHTML = `
+          qrContainer.innerHTML = `
             <div style="padding: 2rem; text-align: center; color: var(--text-color);">
               <p style="margin-bottom: 1rem; font-weight: 500;">QR Code Service Unavailable</p>
               <p style="font-size: 0.875rem; margin-bottom: 1rem;">Share this URL instead:</p>
@@ -199,37 +186,14 @@
       };
     }
 
-    // Show main QR modal
+    // Show modal
     function showModal() {
-      const url = window.location.href;
-      generateQR(qrContainer, url);
+      generateQR();
       modal.classList.add('active');
       modal.setAttribute('aria-hidden', 'false');
-      
-      // Update URL display
-      const urlDisplay = document.getElementById('qrUrl');
-      if (urlDisplay) {
-        urlDisplay.textContent = url.replace('https://', '').replace('http://', '');
-      }
 
-      setupModalFocus(modal, qrBtn);
-    }
-
-    // Show LinkedIn QR modal
-    function showLinkedinModal() {
-      if (!linkedinModal || !linkedinQrContainer) return;
-      
-      const linkedinUrl = 'https://www.linkedin.com/in/saloni-gandhi-8a3b401b2/';
-      generateQR(linkedinQrContainer, linkedinUrl);
-      linkedinModal.classList.add('active');
-      linkedinModal.setAttribute('aria-hidden', 'false');
-
-      setupModalFocus(linkedinModal, linkedinQrBtn);
-    }
-
-    // Setup modal focus trap
-    function setupModalFocus(modalElement, returnButton) {
-      const focusableElements = modalElement.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      // Focus trap
+      const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
       const firstElement = focusableElements[0];
       const lastElement = focusableElements[focusableElements.length - 1];
 
@@ -251,24 +215,24 @@
         }
       }
 
-      modalElement.addEventListener('keydown', handleModalKeydown);
-      modalElement._handleModalKeydown = handleModalKeydown;
+      modal.addEventListener('keydown', handleModalKeydown);
+      modal._handleModalKeydown = handleModalKeydown;
     }
 
     // Hide modal
-    function hideModal(modalElement, returnButton) {
-      modalElement.classList.remove('active');
-      modalElement.setAttribute('aria-hidden', 'true');
-      if (modalElement._handleModalKeydown) {
-        modalElement.removeEventListener('keydown', modalElement._handleModalKeydown);
-        delete modalElement._handleModalKeydown;
+    function hideModal() {
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+      if (modal._handleModalKeydown) {
+        modal.removeEventListener('keydown', modal._handleModalKeydown);
+        delete modal._handleModalKeydown;
       }
-      returnButton?.focus();
+      qrBtn.focus();
     }
 
     // Download QR code as PNG
-    function downloadQR(instance, filename) {
-      if (!instance || instance.tagName !== 'IMG') {
+    function downloadQR() {
+      if (!qrCodeInstance || qrCodeInstance.tagName !== 'IMG') {
         showToast('No QR code available to download');
         return;
       }
@@ -279,31 +243,31 @@
         const ctx = canvas.getContext('2d');
 
         // Set canvas size
-        canvas.width = instance.naturalWidth || 250;
-        canvas.height = instance.naturalHeight || 250;
+        canvas.width = qrCodeInstance.naturalWidth || 200;
+        canvas.height = qrCodeInstance.naturalHeight || 200;
 
         // Draw the QR code image onto canvas
-        ctx.drawImage(instance, 0, 0);
+        ctx.drawImage(qrCodeInstance, 0, 0);
 
         // Convert to data URL and download
         const dataUrl = canvas.toDataURL('image/png');
         const link = document.createElement('a');
-        link.download = filename;
+        link.download = 'saloni-gandhi-qr-code.png';
         link.href = dataUrl;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
 
         console.log('💾 QR Code downloaded successfully');
-        showToast('QR Code downloaded for printing!');
+        showToast('QR Code downloaded!');
       } catch (err) {
         console.error('Failed to download QR code:', err);
 
         // Fallback: try direct image download
         try {
           const link = document.createElement('a');
-          link.download = filename;
-          link.href = instance.src;
+          link.download = 'saloni-gandhi-qr-code.png';
+          link.href = qrCodeInstance.src;
           link.target = '_blank';
           document.body.appendChild(link);
           link.click();
@@ -315,116 +279,23 @@
       }
     }
 
-    // Print QR code
-    function printQR() {
-      if (!qrCodeInstance) {
-        showToast('No QR code available to print');
-        return;
-      }
-
-      const printWindow = window.open('', '_blank');
-      printWindow.document.write(`
-        <html>
-          <head>
-            <title>Saloni Gandhi - QR Code for Badge</title>
-            <style>
-              body { 
-                font-family: Arial, sans-serif; 
-                text-align: center; 
-                padding: 20px;
-                margin: 0;
-              }
-              .qr-container {
-                display: inline-block;
-                border: 2px solid #2563eb;
-                border-radius: 15px;
-                padding: 20px;
-                margin: 10px;
-                background: white;
-              }
-              .qr-label {
-                font-size: 14px;
-                font-weight: bold;
-                color: #2563eb;
-                margin-bottom: 10px;
-              }
-              .qr-subtitle {
-                font-size: 12px;
-                color: #666;
-                margin-top: 10px;
-              }
-              img {
-                display: block;
-                margin: 0 auto;
-              }
-              @media print {
-                body { margin: 0; }
-                .qr-container { 
-                  page-break-inside: avoid;
-                  border: 2px solid #000;
-                }
-              }
-            </style>
-          </head>
-          <body>
-            <div class="qr-container">
-              <div class="qr-label">👋 Scan to see my projects!</div>
-              <img src="${qrCodeInstance.src}" alt="QR Code" style="width: 200px; height: 200px;">
-              <div class="qr-subtitle">Saloni Gandhi - Software Engineer</div>
-            </div>
-          </body>
-        </html>
-      `);
-      printWindow.document.close();
-      printWindow.print();
-    }
-
     // Event listeners
     qrBtn.addEventListener('click', showModal);
-    closeBtn.addEventListener('click', () => hideModal(modal, qrBtn));
-    downloadBtn.addEventListener('click', () => downloadQR(qrCodeInstance, 'saloni-gandhi-badge-qr.png'));
-    
-    if (printBtn) {
-      printBtn.addEventListener('click', printQR);
-    }
-
-    if (linkedinQrBtn) {
-      linkedinQrBtn.addEventListener('click', showLinkedinModal);
-    }
-
-    if (closeLinkedinBtn) {
-      closeLinkedinBtn.addEventListener('click', () => hideModal(linkedinModal, linkedinQrBtn));
-    }
-
-    if (downloadLinkedinBtn) {
-      downloadLinkedinBtn.addEventListener('click', () => downloadQR(linkedinQrCodeInstance, 'saloni-gandhi-linkedin-qr.png'));
-    }
+    closeBtn.addEventListener('click', hideModal);
+    downloadBtn.addEventListener('click', downloadQR);
 
     // Close modal on escape key or backdrop click
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        if (modal.classList.contains('active')) {
-          hideModal(modal, qrBtn);
-        }
-        if (linkedinModal && linkedinModal.classList.contains('active')) {
-          hideModal(linkedinModal, linkedinQrBtn);
-        }
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        hideModal();
       }
     });
 
     modal.addEventListener('click', (e) => {
       if (e.target === modal) {
-        hideModal(modal, qrBtn);
+        hideModal();
       }
     });
-
-    if (linkedinModal) {
-      linkedinModal.addEventListener('click', (e) => {
-        if (e.target === linkedinModal) {
-          hideModal(linkedinModal, linkedinQrBtn);
-        }
-      });
-    }
   }
 
   // Resume Modal functionality
