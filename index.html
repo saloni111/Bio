@@ -38,20 +38,8 @@
         <!-- Bio Header Section -->
         <div class="bio-header">
             <div class="avatar">
-                <div class="avatar-gradient">
-                    <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
-                        <circle cx="36" cy="36" r="36" fill="url(#avatarGradient)"/>
-                        <circle cx="36" cy="28" r="11" fill="white"/>
-                        <path d="M18 58c0-10 8-18 18-18s18 8 18 18" fill="white"/>
-                    </svg>
-                    <svg width="0" height="0">
-                        <defs>
-                            <linearGradient id="avatarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
-                                <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
+                <div class="avatar-photo">
+                    <img src="./saloni-photo.jpg" alt="Saloni Gandhi" class="profile-photo">
                 </div>
             </div>
             <h1>Saloni Gandhi</h1>
@@ -192,13 +180,116 @@
             </a>
         </div>
 
-            
-           
+        <!-- Simple QR Button -->
+        <div class="simple-qr-section fade-in" style="animation-delay: 0.6s;">
+            <button id="qrBtn" class="simple-qr-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="5" height="5"></rect>
+                    <rect x="16" y="3" width="5" height="5"></rect>
+                    <rect x="3" y="16" width="5" height="5"></rect>
+                    <path d="M21 16h-3a2 2 0 0 0-2 2v3"></path>
+                    <path d="M21 21v.01"></path>
+                    <path d="M12 7v3a2 2 0 0 1-2 2H7"></path>
+                    <path d="M3 12h.01"></path>
+                    <path d="M12 3h.01"></path>
+                    <path d="M12 16v.01"></path>
+                    <path d="M16 12h1"></path>
+                    <path d="M21 12v.01"></path>
+                    <path d="M12 21v-1"></path>
+                </svg>
+                Show QR
+            </button>
+        </div>
+    </main>
+
     <footer>
         <p>&copy; 2025 Built by Saloni | Scan the QR to connect @ GHC 25 💙</p>
     </footer>
 
+    <!-- QR Modal -->
+    <div id="qrModal" class="modal" role="dialog" aria-labelledby="qrModalTitle" aria-hidden="true">
+        <div class="modal-content qr-modal">
+            <div class="modal-header">
+                <h2 id="qrModalTitle">QR Code for Badge/Cards</h2>
+                <button id="closeModal" class="close-btn" aria-label="Close QR code modal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="qr-display">
+                    <div id="qrcode"></div>
+                    <div class="qr-label">
+                        <p>👋 <strong>Scan to see my projects!</strong></p>
+                        <p class="qr-url" id="qrUrl">saloni111.github.io/Bio</p>
+                    </div>
+                </div>
+                <div class="qr-actions">
+                    <button id="downloadQR" class="download-btn primary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7,10 12,15 17,10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download for Badge
+                    </button>
+                    <button id="printQR" class="download-btn secondary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6,9 6,2 18,2 18,9"></polyline>
+                            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                            <rect x="6" y="14" width="12" height="8"></rect>
+                        </svg>
+                        Print Cards
+                    </button>
+                </div>
+                <div class="qr-tips-modal">
+                    <h4>💡 GHC 25 Tips:</h4>
+                    <ul>
+                        <li>Add this QR to your conference badge</li>
+                        <li>Print mini cards for easy sharing</li>
+                        <li>Perfect conversation starter with recruiters</li>
+                        <li>Shows all your work in one scan!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- LinkedIn QR Modal -->
+    <div id="linkedinQrModal" class="modal" role="dialog" aria-labelledby="linkedinQrModalTitle" aria-hidden="true">
+        <div class="modal-content qr-modal">
+            <div class="modal-header">
+                <h2 id="linkedinQrModalTitle">LinkedIn QR Code</h2>
+                <button id="closeLinkedinModal" class="close-btn" aria-label="Close LinkedIn QR modal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="qr-display">
+                    <div id="linkedinQrcode"></div>
+                    <div class="qr-label linkedin">
+                        <p>🤝 <strong>Connect on LinkedIn!</strong></p>
+                        <p class="qr-url">Quick professional networking</p>
+                    </div>
+                </div>
+                <div class="qr-actions">
+                    <button id="downloadLinkedinQR" class="download-btn primary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7,10 12,15 17,10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download LinkedIn QR
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Resume PDF Modal -->
     <div id="resumeModal" class="modal" role="dialog" aria-labelledby="resumeModalTitle" aria-hidden="true">
