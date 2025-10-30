@@ -113,84 +113,73 @@
 
     let qrCodeInstance = null;
 
-    // Generate QR code
+    // Generate QR code - Simple and reliable approach
     function generateQR() {
       // Clear previous QR code
       qrContainer.innerHTML = '';
       
       const url = window.location.href;
       
-      // Try multiple QR code generation methods
-      if (typeof qrcode !== 'undefined') {
-        // Method 1: qrcode-generator library
-        try {
-          const qr = qrcode(0, 'M');
-          qr.addData(url);
-          qr.make();
-          
-          const size = 200;
-          const canvas = document.createElement('canvas');
-          canvas.width = size;
-          canvas.height = size;
-          const ctx = canvas.getContext('2d');
-          
-          const moduleCount = qr.getModuleCount();
-          const cellSize = size / moduleCount;
-          
-          // Get colors from CSS variables
-          const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          const darkColor = isDark ? '#ffffff' : '#000000';
-          const lightColor = isDark ? '#000000' : '#ffffff';
-          
-          ctx.fillStyle = lightColor;
-          ctx.fillRect(0, 0, size, size);
-          
-          ctx.fillStyle = darkColor;
-          for (let row = 0; row < moduleCount; row++) {
-            for (let col = 0; col < moduleCount; col++) {
-              if (qr.isDark(row, col)) {
-                ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
-              }
-            }
-          }
-          
-          canvas.style.borderRadius = '1rem';
-          canvas.style.boxShadow = '0 4px 16px var(--shadow-color)';
-          qrContainer.appendChild(canvas);
-          qrCodeInstance = canvas;
-          return;
-        } catch (err) {
-          console.warn('QR generation failed:', err);
-        }
-      }
+      // Show loading state
+      qrContainer.innerHTML = '<div style="padding: 2rem; color: var(--text-color);">Generating QR Code...</div>';
       
-      // Method 2: Fallback to QR Server API
-      try {
-        const qrImg = document.createElement('img');
-        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
-        qrImg.alt = 'QR Code';
-        qrImg.style.borderRadius = '1rem';
-        qrImg.style.boxShadow = '0 4px 16px var(--shadow-color)';
-        qrImg.style.maxWidth = '200px';
-        qrImg.style.height = 'auto';
+      // Use QR Server API - most reliable method
+      const qrImg = document.createElement('img');
+      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+      // QR Server API with color customization
+      const bgColor = isDark ? '000000' : 'ffffff';
+      const fgColor = isDark ? 'ffffff' : '000000';
+      
+      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&bgcolor=${bgColor}&color=${fgColor}&data=${encodeURIComponent(url)}`;
+      qrImg.alt = 'QR Code for ' + url;
+      qrImg.style.cssText = `
+        border-radius: 1rem;
+        box-shadow: 0 4px 16px var(--shadow-color);
+        max-width: 200px;
+        height: auto;
+        display: block;
+      `;
+      
+      qrImg.onload = () => {
+        qrContainer.innerHTML = '';
+        qrContainer.appendChild(qrImg);
+        qrCodeInstance = qrImg;
+        console.log('✅ QR Code generated successfully');
+      };
+      
+      qrImg.onerror = () => {
+        // Fallback: Try without color customization
+        const fallbackImg = document.createElement('img');
+        fallbackImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
+        fallbackImg.alt = 'QR Code for ' + url;
+        fallbackImg.style.cssText = qrImg.style.cssText;
         
-        qrImg.onload = () => {
-          qrContainer.appendChild(qrImg);
-          qrCodeInstance = qrImg;
+        fallbackImg.onload = () => {
+          qrContainer.innerHTML = '';
+          qrContainer.appendChild(fallbackImg);
+          qrCodeInstance = fallbackImg;
+          console.log('✅ QR Code generated (fallback)');
         };
         
-        qrImg.onerror = () => {
-          // Method 3: Final fallback - show URL as text
+        fallbackImg.onerror = () => {
+          // Final fallback - show URL as text with copy button
           qrContainer.innerHTML = `
             <div style="padding: 2rem; text-align: center; color: var(--text-color);">
-              <p style="margin-bottom: 1rem;">QR Code unavailable</p>
-              <p style="font-size: 0.875rem; word-break: break-all; background: var(--hover-bg); padding: 1rem; border-radius: 0.5rem;">${url}</p>
+              <p style="margin-bottom: 1rem; font-weight: 500;">QR Code Service Unavailable</p>
+              <p style="font-size: 0.875rem; margin-bottom: 1rem;">Share this URL instead:</p>
+              <div style="background: var(--hover-bg); padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem;">
+                <p style="font-size: 0.875rem; word-break: break-all; font-family: monospace;">${url}</p>
+              </div>
+              <button onclick="navigator.clipboard.writeText('${url}').then(() => alert('URL copied!'))" 
+                      style="padding: 0.5rem 1rem; background: var(--primary-color); color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
+                Copy URL
+              </button>
             </div>
           `;
+          console.warn('❌ QR Code generation failed, showing URL fallback');
         };
-      } catch (err) {
-        qrContainer.innerHTML = '<p style="color: var(--text-color); padding: 2rem;">QR Code generation failed</p>';
-      }
+      };
     }
 
     // Show modal
@@ -236,38 +225,50 @@
 
     // Download QR code as PNG
     function downloadQR() {
-      if (!qrCodeInstance) return;
+      if (!qrCodeInstance || qrCodeInstance.tagName !== 'IMG') {
+        showToast('No QR code available to download');
+        return;
+      }
       
       try {
-        let dataUrl = null;
+        // Create a canvas to convert the image to downloadable format
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
         
-        // Handle canvas element
-        if (qrCodeInstance.tagName === 'CANVAS') {
-          dataUrl = qrCodeInstance.toDataURL('image/png');
-        }
-        // Handle image element
-        else if (qrCodeInstance.tagName === 'IMG') {
-          // Create a canvas to convert the image
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
-          canvas.width = qrCodeInstance.naturalWidth || 200;
-          canvas.height = qrCodeInstance.naturalHeight || 200;
-          ctx.drawImage(qrCodeInstance, 0, 0);
-          dataUrl = canvas.toDataURL('image/png');
-        }
+        // Set canvas size
+        canvas.width = qrCodeInstance.naturalWidth || 200;
+        canvas.height = qrCodeInstance.naturalHeight || 200;
         
-        if (dataUrl) {
-          const link = document.createElement('a');
-          link.download = 'saloni-gandhi-qr-code.png';
-          link.href = dataUrl;
-          link.click();
-          console.log('💾 QR Code downloaded');
-        } else {
-          showToast('Download not available for this QR code');
-        }
+        // Draw the QR code image onto canvas
+        ctx.drawImage(qrCodeInstance, 0, 0);
+        
+        // Convert to data URL and download
+        const dataUrl = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.download = 'saloni-gandhi-qr-code.png';
+        link.href = dataUrl;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        console.log('💾 QR Code downloaded successfully');
+        showToast('QR Code downloaded!');
       } catch (err) {
         console.error('Failed to download QR code:', err);
-        showToast('Download failed. Please try again.');
+        
+        // Fallback: try direct image download
+        try {
+          const link = document.createElement('a');
+          link.download = 'saloni-gandhi-qr-code.png';
+          link.href = qrCodeInstance.src;
+          link.target = '_blank';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          showToast('QR Code opened in new tab');
+        } catch (fallbackErr) {
+          showToast('Download failed. Right-click the QR code to save.');
+        }
       }
     }
 
