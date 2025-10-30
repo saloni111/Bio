@@ -362,10 +362,20 @@
 
   // Global function to open resume modal
   window.openResumeModal = function() {
+    console.log('🔍 Opening resume modal...');
+    
     const modal = document.getElementById('resumeModal');
     const iframe = document.getElementById('resumeFrame');
     
-    if (!modal || !iframe) return;
+    if (!modal) {
+      console.error('❌ Resume modal not found');
+      return;
+    }
+    
+    if (!iframe) {
+      console.error('❌ Resume iframe not found');
+      return;
+    }
 
     // Use Google Docs viewer for reliable PDF display
     iframe.src = 'https://docs.google.com/viewer?url=https://saloni111.github.io/Bio/SaloniGandhi.pdf&embedded=true';
@@ -375,7 +385,7 @@
     
     // Log analytics
     logLinkClick('resume');
-    console.log('📄 Resume modal opened');
+    console.log('✅ Resume modal opened successfully');
   };
 
   // Initialize everything when DOM is ready
