@@ -1,7 +1,7 @@
 // Link-in-bio site JavaScript
 // Handles share functionality, QR code generation, and analytics
 
-(function() {
+(function () {
   'use strict';
 
   // Analytics logger - logs clicks to console
@@ -14,7 +14,7 @@
       userAgent: navigator.userAgent,
       referrer: document.referrer || 'direct'
     };
-    
+
     console.log('📊 Link Analytics:', analytics);
   }
 
@@ -25,7 +25,7 @@
 
     shareBtn.addEventListener('click', async () => {
       const url = window.location.href;
-      
+
       // Try native Web Share API first (mobile)
       if (navigator.share) {
         try {
@@ -117,20 +117,20 @@
     function generateQR() {
       // Clear previous QR code
       qrContainer.innerHTML = '';
-      
+
       const url = window.location.href;
-      
+
       // Show loading state
       qrContainer.innerHTML = '<div style="padding: 2rem; color: var(--text-color);">Generating QR Code...</div>';
-      
+
       // Use QR Server API - most reliable method
       const qrImg = document.createElement('img');
       const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      
+
       // QR Server API with color customization
       const bgColor = isDark ? '000000' : 'ffffff';
       const fgColor = isDark ? 'ffffff' : '000000';
-      
+
       qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&bgcolor=${bgColor}&color=${fgColor}&data=${encodeURIComponent(url)}`;
       qrImg.alt = 'QR Code for ' + url;
       qrImg.style.cssText = `
@@ -140,28 +140,28 @@
         height: auto;
         display: block;
       `;
-      
+
       qrImg.onload = () => {
         qrContainer.innerHTML = '';
         qrContainer.appendChild(qrImg);
         qrCodeInstance = qrImg;
         console.log('✅ QR Code generated successfully');
       };
-      
+
       qrImg.onerror = () => {
         // Fallback: Try without color customization
         const fallbackImg = document.createElement('img');
         fallbackImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
         fallbackImg.alt = 'QR Code for ' + url;
         fallbackImg.style.cssText = qrImg.style.cssText;
-        
+
         fallbackImg.onload = () => {
           qrContainer.innerHTML = '';
           qrContainer.appendChild(fallbackImg);
           qrCodeInstance = fallbackImg;
           console.log('✅ QR Code generated (fallback)');
         };
-        
+
         fallbackImg.onerror = () => {
           // Final fallback - show URL as text with copy button
           qrContainer.innerHTML = `
@@ -187,17 +187,17 @@
       generateQR();
       modal.classList.add('active');
       modal.setAttribute('aria-hidden', 'false');
-      
+
       // Focus trap
       const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
       const firstElement = focusableElements[0];
       const lastElement = focusableElements[focusableElements.length - 1];
-      
+
       firstElement?.focus();
-      
+
       // Trap focus within modal
       modal.addEventListener('keydown', handleModalKeydown);
-      
+
       function handleModalKeydown(e) {
         if (e.key === 'Tab') {
           if (e.shiftKey) {
@@ -229,19 +229,19 @@
         showToast('No QR code available to download');
         return;
       }
-      
+
       try {
         // Create a canvas to convert the image to downloadable format
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        
+
         // Set canvas size
         canvas.width = qrCodeInstance.naturalWidth || 200;
         canvas.height = qrCodeInstance.naturalHeight || 200;
-        
+
         // Draw the QR code image onto canvas
         ctx.drawImage(qrCodeInstance, 0, 0);
-        
+
         // Convert to data URL and download
         const dataUrl = canvas.toDataURL('image/png');
         const link = document.createElement('a');
@@ -250,12 +250,12 @@
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        
+
         console.log('💾 QR Code downloaded successfully');
         showToast('QR Code downloaded!');
       } catch (err) {
         console.error('Failed to download QR code:', err);
-        
+
         // Fallback: try direct image download
         try {
           const link = document.createElement('a');
@@ -294,7 +294,7 @@
   // Link analytics
   function initLinkAnalytics() {
     const links = document.querySelectorAll('[data-link]');
-    
+
     links.forEach(link => {
       link.addEventListener('click', (e) => {
         const linkType = link.getAttribute('data-link');
@@ -321,7 +321,7 @@
   function checkJavaScriptSupport() {
     // Add a class to indicate JS is working
     document.documentElement.classList.add('js-enabled');
-    
+
     // Log successful initialization
     console.log('🚀 Link-in-bio site initialized');
     console.log('📱 User Agent:', navigator.userAgent);
@@ -333,8 +333,12 @@
     const modal = document.getElementById('resumeModal');
     const closeBtn = document.getElementById('closeResumeModal');
     const iframe = document.getElementById('resumeFrame');
+    const resumeBtn = document.getElementById('resumeButton');
 
-    if (!modal || !closeBtn || !iframe) return;
+    if (!modal || !closeBtn || !iframe || !resumeBtn) {
+      console.error('❌ Resume modal elements not found');
+      return;
+    }
 
     // Close modal function
     function hideResumeModal() {
@@ -344,6 +348,13 @@
     }
 
     // Event listeners
+    resumeBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('🔍 Resume button clicked');
+      openResumeModal();
+    });
+
     closeBtn.addEventListener('click', hideResumeModal);
 
     // Close on escape key or backdrop click
@@ -360,18 +371,18 @@
     });
   }
 
-  // Global function to open resume modal
-  window.openResumeModal = function() {
+  // Function to open resume modal
+  function openResumeModal() {
     console.log('🔍 Opening resume modal...');
-    
+
     const modal = document.getElementById('resumeModal');
     const iframe = document.getElementById('resumeFrame');
-    
+
     if (!modal) {
       console.error('❌ Resume modal not found');
       return;
     }
-    
+
     if (!iframe) {
       console.error('❌ Resume iframe not found');
       return;
@@ -379,14 +390,14 @@
 
     // Use Google Docs viewer for reliable PDF display
     iframe.src = 'https://docs.google.com/viewer?url=https://saloni111.github.io/Bio/SaloniGandhi.pdf&embedded=true';
-    
+
     modal.classList.add('active');
     modal.setAttribute('aria-hidden', 'false');
-    
+
     // Log analytics
     logLinkClick('resume');
     console.log('✅ Resume modal opened successfully');
-  };
+  }
 
   // Initialize everything when DOM is ready
   function init() {
