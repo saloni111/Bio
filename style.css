@@ -1,8 +1,11 @@
 /* CSS Custom Properties for theming */
 :root {
-  --primary-color: #2563eb; /* Blue */
-  --text-color: #000000; /* Black */
-  --bg-color: #ffffff; /* White */
+  --primary-color: #2563eb;
+  /* Blue */
+  --text-color: #000000;
+  /* Black */
+  --bg-color: #ffffff;
+  /* White */
   --border-color: #e5e7eb;
   --shadow-color: rgba(0, 0, 0, 0.1);
   --hover-bg: rgba(37, 99, 235, 0.05);
@@ -12,7 +15,8 @@
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   :root {
-    --primary-color: #3b82f6; /* Lighter blue for dark mode */
+    --primary-color: #3b82f6;
+    /* Lighter blue for dark mode */
     --text-color: #ffffff;
     --bg-color: #000000;
     --border-color: #374151;
@@ -320,20 +324,20 @@ footer {
   main {
     padding: 3rem 0.75rem 1.5rem;
   }
-  
+
   .share-btn {
     padding: 0.5rem 0.75rem;
     font-size: 0.8rem;
   }
-  
+
   h1 {
     font-size: 1.75rem;
   }
-  
+
   .link-btn {
     padding: 1rem 1.25rem;
   }
-  
+
   .link-title {
     font-size: 1rem;
   }
@@ -344,7 +348,7 @@ footer {
   :root {
     --shadow-color: rgba(0, 0, 0, 0.3);
   }
-  
+
   .link-btn {
     border-width: 2px;
   }
