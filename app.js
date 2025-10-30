@@ -328,11 +328,62 @@
     console.log('🌐 URL:', window.location.href);
   }
 
+  // Resume Modal functionality
+  function initResumeModal() {
+    const modal = document.getElementById('resumeModal');
+    const closeBtn = document.getElementById('closeResumeModal');
+    const iframe = document.getElementById('resumeFrame');
+
+    if (!modal || !closeBtn || !iframe) return;
+
+    // Close modal function
+    function hideResumeModal() {
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+      iframe.src = ''; // Stop loading PDF when closed
+    }
+
+    // Event listeners
+    closeBtn.addEventListener('click', hideResumeModal);
+
+    // Close on escape key or backdrop click
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        hideResumeModal();
+      }
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        hideResumeModal();
+      }
+    });
+  }
+
+  // Global function to open resume modal
+  window.openResumeModal = function() {
+    const modal = document.getElementById('resumeModal');
+    const iframe = document.getElementById('resumeFrame');
+    
+    if (!modal || !iframe) return;
+
+    // Use Google Docs viewer for reliable PDF display
+    iframe.src = 'https://docs.google.com/viewer?url=https://saloni111.github.io/Bio/SaloniGandhi.pdf&embedded=true';
+    
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+    
+    // Log analytics
+    logLinkClick('resume');
+    console.log('📄 Resume modal opened');
+  };
+
   // Initialize everything when DOM is ready
   function init() {
     checkJavaScriptSupport();
     initShareButton();
     initQRCode();
+    initResumeModal();
     initLinkAnalytics();
     initKeyboardNavigation();
   }
