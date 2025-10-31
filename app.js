@@ -1,6 +1,70 @@
 // Link-in-bio site JavaScript
 // Handles share functionality, QR code generation, and analytics
 
+// Global email submit function (fallback for onclick)
+window.handleEmailSubmit = function() {
+  console.log('🔧 Global email submit called');
+  const input = document.querySelector('#email');
+  const email = input ? input.value.trim() : '';
+  
+  if (!email.includes('@')) {
+    console.log('⚠️ No @ symbol, ignoring');
+    return;
+  }
+
+  const submitBtn = document.querySelector('#send-btn');
+  const successMessage = document.getElementById('emailSuccessMessage');
+  const form = document.getElementById('emailCaptureForm');
+  
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+  }
+
+  // Try Supabase if available
+  if (window.sb) {
+    const payload = {
+      email: email.toLowerCase(),
+      source: 'ghc25-smart-card',
+      ua: navigator.userAgent
+    };
+    
+    window.sb.from('emails').insert(payload).then(() => {
+      console.log('✅ Email saved to Supabase');
+      showSuccess();
+    }).catch(() => {
+      console.log('⚠️ Supabase failed, showing success anyway');
+      showSuccess();
+    });
+  } else {
+    console.log('⚠️ Supabase not available, showing success anyway');
+    showSuccess();
+  }
+
+  function showSuccess() {
+    if (input) input.value = '';
+    if (successMessage) successMessage.style.display = 'block';
+    if (form) form.style.display = 'none';
+    
+    // Show toast
+    const toast = document.createElement('div');
+    toast.textContent = '✨ Thanks for connecting — I\'ll share our GHC photo!';
+    toast.style.cssText = `
+      position: fixed; top: 5rem; left: 50%; transform: translateX(-50%);
+      background: #10b981; color: white; padding: 0.75rem 1.5rem;
+      border-radius: 1rem; font-size: 0.875rem; font-weight: 500;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3); z-index: 1001;
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+    
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send & Continue';
+    }
+  }
+};
+
 (function () {
   'use strict';
 
@@ -244,6 +308,7 @@
     try {
       if (typeof window.supabase !== 'undefined') {
         sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        window.sb = sb; // Make globally available
         console.log('✅ Supabase initialized');
       } else {
         console.log('⚠️ Supabase CDN not loaded, using fallback');
