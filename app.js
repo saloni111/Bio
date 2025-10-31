@@ -238,15 +238,18 @@
   const SUPABASE_URL = 'https://nlyfkrytdyhphtczguip.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5seWZrcnl0ZHlocGh0Y3pndWlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE5MDU0OTksImV4cCI6MjA3NzQ4MTQ5OX0.2uOyhG73EUeYp3N0zqYOogqx3g8qZRe2O70GkQNHmdo';
 
-  // Import Supabase client
+  // Initialize Supabase client
   let sb;
-  async function initSupabase() {
+  function initSupabase() {
     try {
-      const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2');
-      sb = createClient(SUPABASE_URL, SUPABASE_KEY);
-      console.log('✅ Supabase initialized');
+      if (typeof window.supabase !== 'undefined') {
+        sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        console.log('✅ Supabase initialized');
+      } else {
+        console.log('⚠️ Supabase CDN not loaded, using fallback');
+      }
     } catch (error) {
-      console.log('⚠️ Supabase not available, using fallback');
+      console.log('⚠️ Supabase initialization failed:', error);
     }
   }
 
@@ -357,7 +360,12 @@
     const sendBtn = document.querySelector('#send-btn');
     const emailInput = document.querySelector('#email');
     
-    if (!sendBtn || !emailInput) return;
+    if (!sendBtn || !emailInput) {
+      console.log('⚠️ Email form elements not found');
+      return;
+    }
+
+    console.log('✅ Email capture initialized');
 
     // Handle button click
     sendBtn.addEventListener('click', submitEmail);
@@ -369,6 +377,11 @@
         submitEmail();
       }
     });
+
+    // Ensure button is always clickable
+    sendBtn.disabled = false;
+    sendBtn.style.pointerEvents = 'auto';
+    sendBtn.style.cursor = 'pointer';
   }
 
   // Progressive enhancement check
@@ -392,10 +405,13 @@
   }
 
   // Initialize everything when DOM is ready
-  async function init() {
+  function init() {
     checkJavaScriptSupport();
-    await initSupabase();
-    initEmailCapture();
+    // Wait a bit for Supabase CDN to load
+    setTimeout(() => {
+      initSupabase();
+      initEmailCapture();
+    }, 100);
     initShareButton();
     initResumeModal();
     initLinkAnalytics();
