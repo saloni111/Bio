@@ -4,14 +4,6 @@
 (function () {
   'use strict';
 
-  // Link section ID constant for email capture scroll
-  const LINK_SECTION_ID = 'links-root';
-  
-  // API endpoint configuration
-  const API_BASE_URL = window.location.hostname === 'localhost' 
-    ? 'http://localhost:3000' 
-    : 'https://your-backend-url.com'; // Replace with your deployed backend URL
-
   // Analytics logger - logs clicks to console
   function logLinkClick(linkType) {
     const timestamp = new Date().toISOString();
@@ -234,53 +226,6 @@
     });
   }
 
-  // Email Capture Form Handling
-  function scrollToLinks() {
-    const linksSection = document.getElementById(LINK_SECTION_ID);
-    if (linksSection) {
-      linksSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }
-
-  function initEmailCapture() {
-    const form = document.getElementById('emailCaptureForm');
-    const successMessage = document.getElementById('emailSuccessMessage');
-    const emailInput = document.getElementById('emailInput');
-
-    if (!form) return;
-
-    // Handle form submission
-    form.addEventListener('submit', (e) => {
-      const email = emailInput.value.trim();
-      // Simple validation - just check for @ symbol
-      if (!email || !email.includes('@')) {
-        e.preventDefault();
-        alert('Please enter a valid email address');
-        return;
-      }
-
-      const submitBtn = form.querySelector('.email-submit-btn');
-      
-      // Disable button and show loading state
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending...';
-
-      // Log the email capture
-      console.log('📧 Email captured:', email, 'from source: ghc25-qr', 'at:', new Date().toISOString());
-      
-      // Show success message after a short delay (form will submit to Google Forms)
-      setTimeout(() => {
-        successMessage.style.display = 'block';
-        form.style.display = 'none';
-      }, 1000);
-      
-      // Form will submit naturally to Google Forms via the action attribute
-      // The hidden iframe prevents page navigation
-    });
-
-    // Skip button removed from UI
-  }
-
   // Progressive enhancement check
   function checkJavaScriptSupport() {
     // Add a class to indicate JS is working
@@ -304,7 +249,6 @@
   // Initialize everything when DOM is ready
   function init() {
     checkJavaScriptSupport();
-    initEmailCapture();
     initShareButton();
     initResumeModal();
     initLinkAnalytics();
