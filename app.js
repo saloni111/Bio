@@ -332,9 +332,11 @@
     initKeyboardNavigation();
     
     // Set up uniform auto-fit scaling
+    document.addEventListener('DOMContentLoaded', fit);
     window.addEventListener('load', fit, { once: true });
     window.addEventListener('resize', () => deb(fit));
     window.addEventListener('orientationchange', fit);
+    window.visualViewport?.addEventListener('resize', () => setTimeout(fit, 50));
     window.addEventListener('focusin', () => setTimeout(fit, 300));
     window.addEventListener('focusout', () => setTimeout(fit, 300));
   }
