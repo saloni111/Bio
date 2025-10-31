@@ -807,6 +807,13 @@ h1 {
   outline-offset: 2px;
 }
 
+/* Mobile-first overrides – must be last (increase specificity) */
+:root body .hero{height:40vh;min-height:260px;display:grid;place-content:center}
+:root body #links-root .links{gap:10px}
+:root body #links-root .links .link-card{display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:12px 14px;border-radius:16px}
+:root body #links-root .links .link-card .icon{width:48px;height:48px;display:grid;place-items:center}
+:root body .lets-connect.link-card{padding:12px 14px;border-radius:16px}
+
 .connect-content {
   display: flex;
   align-items: center;
