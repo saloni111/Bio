@@ -1,0 +1,315 @@
+/* Business Card - Purple Border Style */
+:root {
+  --purple-border: #7c3aed;
+  --text-black: #000000;
+  --text-gray: #4b5563;
+  --bg-white: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', 'Arial', 'Helvetica', sans-serif;
+  background: radial-gradient(1200px 600px at 50% -10%, #ede9fe 0%, rgba(237, 233, 254, 0) 60%), #f5f7fb;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.cards-wrapper {
+  max-width: 720px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.business-card {
+  background: var(--bg-white);
+  border: 3px solid var(--purple-border);
+  aspect-ratio: 3.5 / 2;
+  max-width: 640px;
+  width: 100%;
+  box-shadow: 0 10px 40px rgba(79, 70, 229, 0.15), 0 2px 12px rgba(0,0,0,0.08);
+  position: relative;
+  border-radius: 10px;
+}
+
+.card-content {
+  padding: 0.4rem 0.9rem;
+  height: 100%;
+  display: flex;
+}
+
+/* FRONT CARD */
+.business-card.front .card-content {
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.front-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+  flex: 1 1 50%;
+}
+
+.profile-photo {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  margin-bottom: 0.25rem;
+}
+
+.name {
+  font-size: 1.75rem;
+  font-weight: 400;
+  color: var(--text-black);
+  margin: 0;
+  line-height: 1;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+.name-row { display: flex; align-items: center; gap: 0.4rem; flex-wrap: nowrap; }
+
+.name-bold {
+  font-weight: 400;
+}
+
+.subtitle { font-size: 0.85rem; color: var(--text-gray); margin: 0; font-weight: 400; line-height: 1.3; }
+
+.company {
+  font-size: 0.85rem;
+  color: var(--text-gray);
+  font-weight: 400;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.interest { font-size: 0.85rem; color: #6b7280; margin: 0.2rem 0 0; line-height: 1.35; }
+
+/* Meta row and rule */
+.meta { display: none; }
+
+.badge-ghc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.28rem 0.6rem;
+  background: #ede9fe;
+  color: #5b21b6;
+  border: 1px solid #c4b5fd;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.meta-text { font-size: 0.95rem; font-weight: 500; color: var(--text-gray); }
+
+.meta-exp { font-size: 0.95rem; font-weight: 500; color: var(--text-gray); margin-left: 0.5rem; }
+
+.thin-rule { display: none; }
+
+.front-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 50%;
+  flex-direction: column;
+}
+
+.qr-wrap { padding: 0.25rem; border-radius: 0.75rem; background: #fafaff; box-shadow: inset 0 0 0 1px #e9e5ff; }
+
+#qrcode { background: white; padding: 0.4rem; border-radius: 0.5rem; }
+
+.qr-note { margin-top: 0.35rem; font-size: 0.75rem; color: #6b7280; }
+
+#qrcode img,
+#qrcode canvas {
+  display: block;
+}
+
+/* DIVIDER */
+.card-divider {
+  height: 8px;
+  background: #1f2937;
+  width: 100%;
+  max-width: 640px;
+}
+
+/* BACK CARD */
+.business-card.back .card-content.back-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  column-gap: 1.5rem;
+}
+
+.back-header {
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.name-back {
+  font-size: 2.25rem;
+  font-weight: 400;
+  color: var(--text-black);
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+}
+
+.degree {
+  font-size: 1.1rem;
+  color: var(--text-gray);
+  font-weight: 400;
+}
+
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.contact-row .icon {
+  color: var(--text-black);
+  flex-shrink: 0;
+}
+
+.contact-row span {
+  font-size: 1.05rem;
+  color: var(--text-black);
+  font-weight: 400;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .business-card {
+    aspect-ratio: auto;
+    min-height: 400px;
+  }
+
+  .card-content {
+    padding: 2rem;
+  }
+
+  .business-card.front .card-content {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .business-card.back .card-content.back-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .front-left {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .front-right {
+    padding-left: 0;
+  }
+
+  .name {
+    font-size: 2rem;
+  }
+
+  .name-back {
+    font-size: 1.75rem;
+  }
+
+  .tagline {
+    font-size: 1rem;
+  }
+
+  .profile-photo {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 1rem 0.5rem;
+  }
+
+  .cards-wrapper {
+    gap: 2rem;
+  }
+
+  .card-content {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .name {
+    font-size: 1.75rem;
+  }
+
+  .name-back {
+    font-size: 1.5rem;
+  }
+
+  .tagline,
+  .company,
+  .degree {
+    font-size: 0.9rem;
+  }
+
+  .contact-row span {
+    font-size: 0.9rem;
+  }
+
+  .profile-photo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .card-divider {
+    height: 30px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  body {
+    background: white;
+    padding: 0;
+  }
+
+  .cards-wrapper {
+    gap: 0;
+  }
+
+  .business-card {
+    box-shadow: none;
+    page-break-after: always;
+  }
+
+  .card-divider {
+    display: none;
+  }
+}
+
