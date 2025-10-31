@@ -102,6 +102,20 @@ body {
   margin-top: clamp(4px, 0.8vh, 10px);
 }
 
+/* Hero section sizing */
+.hero {
+  height: 40vh;              /* ~40% of screen */
+  min-height: 260px;         /* safety on very short screens */
+  display: grid;
+  place-content: center;     /* center avatar+name+taglines inside the 40% */
+  text-align: center;
+}
+
+/* Keep original look; only minor spacing allowed */
+.hero .avatar { margin-bottom: 8px; }
+.hero h1 { margin: 4px 0; }
+.hero .tagline, .hero .subline { margin: 2px 0; }
+
 /* Prevent first-child elements from adding extra top space */
 #hero > :first-child {
   margin-top: 0 !important;
